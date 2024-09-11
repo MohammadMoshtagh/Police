@@ -9,6 +9,8 @@ class Agent:
         :param graph: A Graph object.
         :param start_node: The node from which the agent starts. If not provided, a random node is chosen.
         """
+        self.turn_counter = 0
+        self.agent_type = None
         self.graph = graph.graph  # Use the networkx graph from the Graph class
         if start_node is None:
             # Choose a random start node if not provided
@@ -16,7 +18,7 @@ class Agent:
         else:
             self.current_node = start_node
 
-    def move(self):
+    def move(self, agents_positions=None):
         """
         Move the agent to a random neighbor of the current node.
         If the current node has no neighbors, the agent stays in place.
