@@ -11,7 +11,6 @@ logger = logging.getLogger()
 
 class Runner:
     def __init__(self, config_file_name: str = "config.json"):
-        logger.info("Test")
         self.config_file_name = config_file_name
         self.num_thieves = None
         self.num_polices = None
