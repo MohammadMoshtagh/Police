@@ -10,7 +10,8 @@ class Police(Agent):
         """
         Move the police agent to a random neighbor or get information about the thief's position every 5 turns.
 
-        :param thief_position: The position of the agents. It's an dictionary from agent_id as key to (node_id, agent_type) as value.
+        :param agents_positions: The position of the agents.
+        It's a dictionary with "polices" and "thieves" as keys and the value is the list of positions.
         """
         # TODO
 

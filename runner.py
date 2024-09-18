@@ -92,14 +92,29 @@ class Runner:
         is_reveal_round = round_number in self.reveal_rounds
         for police in self.polices:
             if is_reveal_round:
-                police.move(list(current_police_positions.values()) + list(current_thief_positions.values()))
+                police.move(
+                    {
+                        "polices": list(current_police_positions.values()),
+                        "thieves": list(current_thief_positions.values())
+                    }
+                )
             else:
-                police.move(current_police_positions.values())
+                police.move(
+                    {
+                        "polices": list(current_police_positions.values()),
+                        "thieves": []
+                    }
+                )
             logger.info(f"Police {police.agent_id} has made this move: "
                         f"{current_police_positions[police.agent_id]} -> {police.current_node}")
 
         for thief in self.thieves:
-            thief.move(list(current_police_positions.values()) + list(current_thief_positions.values()))
+            thief.move(
+                {
+                    "polices": list(current_police_positions.values()),
+                    "thieves": list(current_thief_positions.values())
+                }
+            )
             logger.info(f"Thief {thief.agent_id} has made this move: "
                         f"{current_thief_positions[thief.agent_id]} -> {thief.current_node}")
 
