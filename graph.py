@@ -46,18 +46,25 @@ class Graph:
         """Return a dictionary of nodes and their degrees."""
         return dict(self.graph.degree)
 
-    def display_graph(self):
+    def get_neighbors(self, node):
+        return list(self.graph.neighbors(node))
+
+    def display_graph(self, color_map = None):
         """Display the graph using matplotlib."""
         pos = nx.spring_layout(self.graph)
-        nx.draw(self.graph, pos, with_labels=True, node_color='skyblue', node_size=1500, edge_color='gray', font_size=10)
+        if color_map is None:
+            nx.draw(self.graph, pos, with_labels=True, node_color='skyblue', node_size=1500, edge_color='gray', font_size=10)
+        else:
+            nx.draw(self.graph, pos, with_labels=True, node_color=color_map, node_size=1500, edge_color='gray', font_size=10)
         plt.show()
 
 # Example Usage
 if __name__ == "__main__":
     g = Graph()
     g.add_nodes([1, 2, 3, 4])
-    g.add_edges([(1, 2), (1, 3), (2, 4)])
+    color_map = ["blue", "blue", "red", "blue"]
+    g.add_edges([[1, 2], [1, 3], [2, 4]])
     print("Nodes:", g.get_nodes())
     print("Edges:", g.get_edges())
     print("Node degrees:", g.node_degrees())
-    g.display_graph()
+    g.display_graph(color_map)

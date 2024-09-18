@@ -2,8 +2,8 @@ from agent import Agent
 from agent_type import AgentType
 
 class Police(Agent):
-    def __init__(self, graph, start_node=None):
-        super().__init__(graph, start_node)
+    def __init__(self, agent_id, graph, start_node=None):
+        super().__init__(agent_id, graph, start_node)
         self.agent_type = AgentType.POLICE
 
     def move(self, agents_positions=None):

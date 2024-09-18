@@ -2,7 +2,7 @@ import random
 from graph import Graph
 
 class Agent:
-    def __init__(self, graph: Graph, start_node=None):
+    def __init__(self, agent_id, graph: Graph, start_node=None):
         """
         Initialize the Agent with a graph and a starting node.
 
@@ -10,11 +10,12 @@ class Agent:
         :param start_node: The node from which the agent starts. If not provided, a random node is chosen.
         """
         self.turn_counter = 0
+        self.agent_id = agent_id
         self.agent_type = None
-        self.graph = graph.graph  # Use the networkx graph from the Graph class
+        self.graph = graph  # Use the networkx graph from the Graph class
         if start_node is None:
             # Choose a random start node if not provided
-            self.current_node = random.choice(list(self.graph.nodes))
+            self.current_node = random.choice(list(self.graph.get_nodes()))
         else:
             self.current_node = start_node
 
@@ -23,7 +24,7 @@ class Agent:
         Move the agent to a random neighbor of the current node.
         If the current node has no neighbors, the agent stays in place.
         """
-        neighbors = list(self.graph.neighbors(self.current_node))
+        neighbors = list(self.graph.get_neighbors(self.current_node))
         if neighbors:
             self.current_node = random.choice(neighbors)
         else:
@@ -42,7 +43,7 @@ if __name__ == "__main__":
     g.add_edges([(1, 2), (1, 3), (2, 4), (3, 5)])
 
     # Create an agent that starts at node 1
-    agent = Agent(g, start_node=1)
+    agent = Agent(1, g, start_node=1)
 
     # Move the agent and print its new position
     for i in range(5):
