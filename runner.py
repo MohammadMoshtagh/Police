@@ -86,18 +86,22 @@ class Runner:
         logger.info("Terrorists win the game 🫢")
 
     def run_round(self, round_number):
-        current_police_positions = [police.current_node for police in self.polices]
-        current_thief_positions = [thief.current_node for thief in self.thieves]
+        current_police_positions = {police.agent_id: police.current_node for police in self.polices}
+        current_thief_positions = {thief.agent_id: thief.current_node for thief in self.thieves}
 
         is_reveal_round = round_number in self.reveal_rounds
         for police in self.polices:
             if is_reveal_round:
-                police.move(current_police_positions + current_thief_positions)
+                police.move(list(current_police_positions.values()) + list(current_thief_positions.values()))
             else:
-                police.move(current_police_positions)
+                police.move(current_police_positions.values())
+            logger.info(f"Police {police.agent_id} has made this move: "
+                        f"{current_police_positions[police.agent_id]} -> {police.current_node}")
 
         for thief in self.thieves:
-            thief.move(current_police_positions + current_thief_positions)
+            thief.move(list(current_police_positions.values()) + list(current_thief_positions.values()))
+            logger.info(f"Thief {thief.agent_id} has made this move: "
+                        f"{current_thief_positions[thief.agent_id]} -> {thief.current_node}")
 
     def check_thieves_and_police_collision(self):
         current_police_positions = [police.current_node for police in self.polices]
@@ -105,7 +109,7 @@ class Runner:
         for thief in self.thieves:
             if thief.current_node in current_police_positions:
                 self.thieves.remove(thief)
-                logger.info(f"Thief {thief.agent_id} as been caught!")
+                logger.info(f"Thief {thief.agent_id} has caught!")
 
     def draw_map(self):
         color_map = ["gray" for _ in range(len(self.vertices))]
@@ -120,4 +124,4 @@ class Runner:
 if __name__ == "__main__":
     runner = Runner()
     runner.read_config()
-    runner.run(draw_map_each_round = True)
+    runner.run(draw_map_each_round = False)
